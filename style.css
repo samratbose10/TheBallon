@@ -74,13 +74,13 @@ canvas {
 #gameOver h1 {
     font-size: 36px;
     color: #333;
-    :  1s ease-in-out;
+    animation: slideDown 1s ease-in-out;
 }
 
 #gameOver p {
     font-size: 24px;
     color: #333;
-    animation:  1s ease-in-out;
+    animation: slideDown 1s ease-in-out;
 }
 
 #gameOver button {
@@ -91,7 +91,9 @@ canvas {
     border-radius: 5px;
     background-color: #ff7f50;
     color: white;
-    box-shdow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    animation: popIn 1s ease-in-out;
     width: 100%;
     max-width: 200px;
     height: auto;

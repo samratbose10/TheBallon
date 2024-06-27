@@ -3,14 +3,16 @@ const ctx = canvas.getContext('2d');
 let score = 0;
 let timeLeft = 20;
 let balloons = [];
+let gameInterval;
+let countdownInterval;
+let balloonInterval;
 
 function startGame() {
     document.getElementById('startButton').style.display = 'none';
     canvas.style.display = 'block';
-    setInterval(updateGame, 1000 / 60);
-    setInterval(countdown, 1000);
-    createBalloon();
-    setInterval(createBalloon, 2000); 
+    gameInterval = setInterval(updateGame, 1000 / 60);
+    countdownInterval = setInterval(countdown, 1000);
+    balloonInterval = setInterval(createBalloon, 2000); 
 }
 
 function updateGame() {
@@ -46,9 +48,12 @@ function createBalloon() {
 }
 
 function endGame() {
+    clearInterval(gameInterval);
+    clearInterval(countdownInterval);
+    clearInterval(balloonInterval);
     document.getElementById('gameOver').style.display = 'block';
     document.getElementById('finalScore').innerText = 'Your score: ' + score;
-    canvas.style.display = 'none'
+    canvas.style.display = 'none';
 }
 
 canvas.addEventListener('click', (event) => {
