@@ -5,9 +5,12 @@ let timeLeft = 20;
 let balloons = [];
 
 function startGame() {
+    document.getElementById('startButton').style.display = 'none';
+    canvas.style.display = 'block';
     setInterval(updateGame, 1000 / 60);
     setInterval(countdown, 1000);
     createBalloon();
+    setInterval(createBalloon, 2000); 
 }
 
 function updateGame() {
@@ -43,8 +46,9 @@ function createBalloon() {
 }
 
 function endGame() {
-    alert('Game Over! Your score: ' + score);
-    window.location.reload();
+    document.getElementById('gameOver').style.display = 'block';
+    document.getElementById('finalScore').innerText = 'Your score: ' + score;
+    canvas.style.display = 'none';
 }
 
 canvas.addEventListener('click', (event) => {
@@ -57,8 +61,10 @@ canvas.addEventListener('click', (event) => {
         if (distance < balloon.radius) {
             score += 1;
             document.getElementById('score').innerText = 'Score: ' + score;
+            balloons.splice(index, 1);
+            createBalloon();
         }
     });
 });
 
-startGame();
+document.getElementById('startButton').addEventListener('click', startGame);
