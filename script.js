@@ -6,24 +6,28 @@ let balloons = [];
 let gameInterval;
 let countdownInterval;
 let balloonInterval;
+const balloonImages = ['baaaloon.png', 'ball.png', 'balun.png'];
+const images = [];
+
+balloonImages.forEach(src => {
+    const img = new Image();
+    img.src = src;
+    images.push(img);
+});
 
 function startGame() {
     document.getElementById('startButton').style.display = 'none';
     canvas.style.display = 'block';
     gameInterval = setInterval(updateGame, 1000 / 60);
     countdownInterval = setInterval(countdown, 1000);
-    balloonInterval = setInterval(createBalloon, 2000); 
+    balloonInterval = setInterval(createBalloon, 2000);
 }
 
 function updateGame() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     balloons.forEach((balloon, index) => {
         balloon.y -= balloon.speed;
-        ctx.beginPath();
-        ctx.arc(balloon.x, balloon.y, balloon.radius, 0, Math.PI * 2);
-        ctx.fillStyle = balloon.color;
-        ctx.fill();
-
+        ctx.drawImage(balloon.image, balloon.x - balloon.radius, balloon.y - balloon.radius, balloon.radius * 2, balloon.radius * 2);
         if (balloon.y + balloon.radius < 0) {
             balloons.splice(index, 1);
             createBalloon();
@@ -43,15 +47,15 @@ function createBalloon() {
     const x = Math.random() * canvas.width;
     const radius = Math.random() * 30 + 10;
     const speed = Math.random() * 3 + 1;
-    const color = '#' + Math.floor(Math.random() * 16777215).toString(16);
-    balloons.push({ x, y: canvas.height, radius, speed, color });
+    const image = images[Math.floor(Math.random() * images.length)];
+    balloons.push({ x, y: canvas.height, radius, speed, image });
 }
 
 function endGame() {
     clearInterval(gameInterval);
     clearInterval(countdownInterval);
     clearInterval(balloonInterval);
-    document.getElementById('gameOver').style.display = 'block';
+    document.getElementById('gameOver').style.display = 'flex';
     document.getElementById('finalScore').innerText = 'Your score: ' + score;
     canvas.style.display = 'none';
 }
@@ -60,7 +64,6 @@ canvas.addEventListener('click', (event) => {
     const rect = canvas.getBoundingClientRect();
     const x = event.clientX - rect.left;
     const y = event.clientY - rect.top;
-
     balloons.forEach((balloon, index) => {
         const distance = Math.sqrt((x - balloon.x) ** 2 + (y - balloon.y) ** 2);
         if (distance < balloon.radius) {
