@@ -48,7 +48,7 @@ function createBalloon() {
 function endGame() {
     document.getElementById('gameOver').style.display = 'block';
     document.getElementById('finalScore').innerText = 'Your score: ' + score;
-    canvas.style.display = 'none';
+    canvas.style.display = 'none'
 }
 
 canvas.addEventListener('click', (event) => {
